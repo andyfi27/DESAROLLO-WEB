@@ -1,124 +1,31 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geometría Web - Panel de Telemetría</title>
-    <style>
-        /* Box-sizing y Reseteo
-            */
-        * {
-            /* Con border-box, el padding y el borde se incluyen dentro del width total. 
-               */
-            box-sizing: border-box; 
-            margin: 0;
-            padding: 0;
+/**
+ * Valida si un número dado es primo.
+ * @param {number} numero - El número a evaluar.
+ * @returns {boolean} - True si es primo, false en caso contrario.
+ */
+function esPrimo(numero) {
+    console.log(`--- Validando si ${numero} es primo ---`);
+
+    // Casos base: menores o iguales a 1 no son primos
+    if (numero <= 1) {
+        console.log(`Depuración: ${numero} es menor o igual a 1, no es primo.`);
+        return false;
+    }
+
+    // Iteración optimizada hasta la raíz cuadrada
+    for (let i = 2; i <= Math.sqrt(numero); i++) {
+        if (numero % i === 0) {
+            console.log(`Depuración: Divisible entre ${i}. No es primo.`);
+            return false;
         }
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #e2e8f0;
-            padding: 40px; /* Padding general del body */
-        }
+    console.log(`Depuración: No se encontraron divisores para ${numero}. Es primo.`);
+    return true;
+}
 
-        header {
-            text-align: center;
-            margin-bottom: 40px; /* Margin para separar el header del grid */
-            color: #1e293b;
-        }
-
-        /*  Layout de 3 columnas (Flexbox)
-         */
-        .grid-container {
-            display: flex;
-            justify-content: space-between; /* Distribuye las columnas uniformemente */
-            gap: 25px; /* Espacio matemático exacto entre columnas */
-            max-width: 1200px;
-            margin: 0 auto; /* Centra el contenedor en la pantalla */
-        }
-
-        .columna {
-            flex: 1; /* Obliga a que las 3 columnas midan exactamente lo mismo */
-            background-color: #ffffff;
-            
-            /* Experimentación con Box Model */
-            padding: 25px; /* El texto respira hacia adentro */
-            border: 3px solid #cbd5e1; /* Borde visible hacia afuera del padding */
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .columna h2 {
-            margin-bottom: 15px;
-            color: #0f172a;
-            border-bottom: 2px solid #3b82f6;
-            padding-bottom: 5px;
-        }
-
-        /*  Superposición con Position
-          */
-        .modulo-obc {
-            /* POSITION: RELATIVE 
-               Actúa como el "sistema de coordenadas local" o ancla 
-               para cualquier elemento hijo que tenga position: absolute */
-            position: relative; 
-            
-            background-color: #f1f5f9;
-            height: 150px;
-            border: 2px dashed #94a3b8;
-            margin-top: 30px;
-            padding: 15px;
-            border-radius: 6px;
-        }
-
-        .sensor-bno085 {
-            /* POSITION: ABSOLUTE
-               Se sale del flujo normal del documento y se posiciona 
-               respecto a su ancestro más cercano que tenga position: relative */
-            position: absolute; 
-            top: -15px;   /* Sube 15px por encima del borde superior del contenedor */
-            right: -20px; /* Se desplaza 20px fuera del borde derecho */
-            
-            background-color: #ef4444; /* Rojo alerta */
-            color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            box-shadow: 0 4px 8px rgba(239, 68, 68, 0.4);
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>Panel de Diagnóstico - Lanzamiento 3km</h1>
-    </header>
-
-    <main class="grid-container">
+// Ejecución de prueba
+let numeroAProbar = 29;
+let resultadoPrimo = esPrimo(numeroAProbar);
+console.log(`¿El número ${numeroAProbar} es primo?:`, resultadoPrimo);
         
-        <article class="columna">
-            <h2>Módulo LoRa</h2>
-            <p>Sistema de transmisión de datos de vuelo en tiempo real. </p>
-        </article>
-
-        <article class="columna">
-            <h2>Computador a Bordo</h2>
-            <p>Estructura principal para el control de vuelo. Aquí se aplica el concepto de superposición.</p>
-            
-            <div class="modulo-obc">
-                <p>Placa base del OBC. Esperando datos de telemetría...</p>
-                
-                <div class="sensor-bno085">IMU Activa</div>
-            </div>
-        </article>
-
-        <article class="columna">
-            <h2>Estación Terrena (GCS)</h2>
-            <p>Recepción de paquetes. .</p>
-        </article>
-
-    </main>
-
-</body>
-</html>
